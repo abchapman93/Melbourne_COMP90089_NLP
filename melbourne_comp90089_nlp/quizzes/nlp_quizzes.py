@@ -74,10 +74,17 @@ test_day_of_week = MultipleChoiceQuiz(description="What day of the week is it?",
                   options=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                   show_answer=True)
 
-test_state = FreeTextTest(description="What state are we in? (No abbreviations!)",
-             answer="Utah")
+test_state = FreeTextTest(description="What state is Melbourne in? (No abbreviations!)",
+             answer="Victoria")
 
 test_max = FunctionTest(args=([1,2,3],), expected=3)
+
+prime_mc = SelectMultipleQuiz("Which of the following numbers are prime? (Select all that apply.)",
+                   answer=[2, 3, 5],
+                  options=[2, 3, 4, 5, 6],
+                  shuffle_answer=False)
+
+test_x_equals_3 = ValueTest(3, show_answer=True)
 
 hint_click_button = QuizHint("Click the 'Get hint' button to see the next hint and 'Hide hints' to remove them.",
         hints=[
@@ -154,7 +161,8 @@ def test_get_section_name_validation_func(func):
     ]
     expected = ["Chief Complaint", "History of Present Illness", "Social History"]
     for text, expected in zip(texts, expected):
-        if (actual := func(text)) != expected:
+        actual = func(text)
+        if actual != expected:
             print(f"Incorrect. Expected {expected}, got {actual} for {text}")
             return
     print("That is correct!")
@@ -169,7 +177,8 @@ def test_pneumonia_in_text_validation_func(func):
         "The chest image found no evidence of pna",
     ]
     for string in pna_strings:
-        if (actual := func(string)) is not True:
+        actual = func(string)
+        if actual is not True:
             print(f"Incorrect. Expected True, got {actual} with string {string}")
             return
     if func("") is True:
@@ -181,7 +190,7 @@ test_pneumonia_in_text = ValueTest(validation_func=test_pneumonia_in_text_valida
 quiz_mc_pneumonia_in_text = MultipleChoiceQuiz("If the function above returns True, that means the note indicates the patient has pneumonia.", answer="False")
 
 hint_generate_chief_complaint = QuizHint(hints=[
-    widgets.HTML("""Your output should like like:</br><img src="./media/hint_generate_chief_complaint.png" width="75%"></img>""")
+    widgets.HTML("""Your output should like like:</br><img src="https://github.com/abchapman93/Melbourne_COMP90089_NLP/blob/main/media/hint_generate_chief_complaint.png?raw=true" width="75%"></img>""")
 ])
 
 quiz_medical_concepts_1 = MultipleChoiceQuiz("""
@@ -214,11 +223,13 @@ def test_dx_text_validation_func(doc):
     if len(doc.ents) != 3:
         print(f"Incorrect. doc should have 3 ents, not {len(doc.ents)}")
         return
-    if (ent_labels := {ent.label_ for ent in doc.ents}) != {"DIAGNOSIS"}:
+    ent_labels = {ent.label_ for ent in doc.ents}
+    if ent_labels != {"DIAGNOSIS"}:
         print(f"Incorrect. doc should only have 'DIAGNOSIS' entities, your doc has {ent_labels}")
         return
     expected_texts = {"metastatic carcinoid tumor", "HTN", "hyperlipidemia"}
-    if (ent_texts := {ent.text for ent in doc.ents}) != expected_texts:
+    ent_texts = {ent.text for ent in doc.ents}
+    if ent_texts != expected_texts:
         print(f"Incorrect. Your doc has entities {ent_texts}, should have {expected_texts}")
         return
     print("That is correct!")
@@ -245,9 +256,9 @@ test_ckd_stage_x = ValueTest(validation_func=test_ckd_stage_x_validation_func)
 
 hint_discharge_summ_target_rules = QuizHint(hints=[
     widgets.HTML("""Here is an example of some rules:</br>
-    <img src="./media/hint_disch_summ_target_rules.png" width="60%"></img>"""),
+    <img src="https://github.com/abchapman93/Melbourne_COMP90089_NLP/blob/main/media/hint_disch_summ_target_rules.png?raw=true" width="60%"></img>"""),
     widgets.HTML("""Here is processed text using these rules:</br>
-    <img src="./media/hint_disch_summ_extracted.png" width="70%"></img>""")
+    <img src="https://github.com/abchapman93/Melbourne_COMP90089_NLP/blob/main/media/hint_disch_summ_extracted.png?raw=true" width="70%"></img>""")
 ])
 
 
@@ -338,7 +349,7 @@ test_classify_covid = ValueTest(validation_func=test_classify_covid_validation_f
 
 hint_custom_context = QuizHint(hints=[
     widgets.HTML("""Here is output of the processed texts with added target rules and context rules:</br></br>
-    <img src="./media/hint_custom_context.png" width="75%"></img>""")
+    <img src="https://github.com/abchapman93/Melbourne_COMP90089_NLP/blob/main/media/hint_custom_context.png?raw=true" width="75%"></img>""")
 ])
 
 quiz_note_categories = SelectMultipleQuiz("Which of the following note types are stored in MIMIC?.",
@@ -369,7 +380,8 @@ def test_load_nlp_validation_func(nlp):
         return
 
     expected_pipe_names = ['medspacy_pyrush', 'medspacy_target_matcher', 'medspacy_context']
-    if (actual_pipe_names := nlp.pipe_names) != expected_pipe_names:
+    actual_pipe_names = nlp.pipe_names
+    if actual_pipe_names != expected_pipe_names:
         print(f"Incorrect. nlp.pipe_names should be {expected_pipe_names}, not {actual_pipe_names}")
 
     print("That is correct!")
@@ -383,7 +395,8 @@ def test_load_nlp_add_sectionizer_validation_func(nlp):
         return
 
     expected_pipe_names = ['medspacy_pyrush', 'medspacy_target_matcher', 'medspacy_context', "medspacy_sectionizer"]
-    if (actual_pipe_names := nlp.pipe_names) != expected_pipe_names:
+    actual_pipe_names = nlp.pipe_names
+    if actual_pipe_names != expected_pipe_names:
         print(f"Incorrect. nlp.pipe_names should be {expected_pipe_names}, not {actual_pipe_names}")
 
     print("That is correct!")
