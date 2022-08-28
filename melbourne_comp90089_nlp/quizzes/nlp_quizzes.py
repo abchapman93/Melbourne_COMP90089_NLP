@@ -82,7 +82,8 @@ test_max = FunctionTest(args=([1,2,3],), expected=3)
 hint_click_button = QuizHint("Click the 'Get hint' button to see the next hint and 'Hide hints' to remove them.",
         hints=[
             widgets.HTML("This will be the first hint."),
-            widgets.HTML("""Sometimes there's a second.</br> <img src="./media/they_dont_know.jpeg"></img>"""),
+            widgets.HTML("""Sometimes there's a second.</br> 
+            <img src="https://github.com/abchapman93/Melbourne_COMP90089_NLP/blob/main/media/they_dont_know.jpeg?raw=true"></img>"""),
         ])
 
 quiz_disch_summ1 = MultipleChoiceQuiz("What is the main reason the patient came to the hospital?",
