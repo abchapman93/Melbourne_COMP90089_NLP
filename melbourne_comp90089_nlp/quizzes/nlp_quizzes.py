@@ -69,6 +69,22 @@ Discharge Condition:
 good, stable
 """
 
+test_day_of_week = MultipleChoiceQuiz(description="What day of the week is it?",
+                   answer=datetime.now().strftime('%A'),
+                  options=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                  show_answer=True)
+
+test_state = FreeTextTest(description="What state are we in? (No abbreviations!)",
+             answer="Utah")
+
+test_max = FunctionTest(args=([1,2,3],), expected=3)
+
+hint_click_button = QuizHint("Click the 'Get hint' button to see the next hint and 'Hide hints' to remove them.",
+        hints=[
+            widgets.HTML("This will be the first hint."),
+            widgets.HTML("""Sometimes there's a second.</br> <img src="./media/they_dont_know.jpeg"></img>"""),
+        ])
+
 quiz_disch_summ1 = MultipleChoiceQuiz("What is the main reason the patient came to the hospital?",
                   answer="He was experiencing shortness of breath.",
                   options=[
