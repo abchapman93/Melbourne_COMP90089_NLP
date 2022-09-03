@@ -24,7 +24,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         # NOTE: spacy imports numpy to bootstrap its own setup.py in 2.3.2
-        "medspacy==0.2.0.0"
+        "medspacy==0.2.0.1"
     ],
     package_data={"melbourne_comp90089_nlp": data_files},
 )
